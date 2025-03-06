@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function SearchableList({ items, itemKeyFn, children }) {
+  const lastChange = useRef();
   const [searchTerm, setSearchTerm] = useState("");
 
   const searchResults = items.filter((item) =>
     JSON.stringify(item).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // con todo ese codigo me aseguro que si tenemos un tmeporizador en curso, lo borro
+  // y luego inicio de nuevo. Asoi que la ultima actulizacionm de estado que era parte de  ese te,[prozadpr
+  // que se inicio en el pasado, fue cancelado.
   function handleChange(event) {
-    setSearchTerm(event.target.value);
+    if (lastChange.current) {
+      clearTimeout(lastChange.current);
+    }
+
+    lastChange.current = setTimeout(() => {
+      lastChange.current = null;
+      setSearchTerm(event.target.value);
+    }, 500);
   }
 
   return (
