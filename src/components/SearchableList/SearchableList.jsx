@@ -8,9 +8,6 @@ export default function SearchableList({ items, itemKeyFn, children }) {
     JSON.stringify(item).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // con todo ese codigo me aseguro que si tenemos un tmeporizador en curso, lo borro
-  // y luego inicio de nuevo. Asoi que la ultima actulizacionm de estado que era parte de  ese te,[prozadpr
-  // que se inicio en el pasado, fue cancelado.
   function handleChange(event) {
     if (lastChange.current) {
       clearTimeout(lastChange.current);
